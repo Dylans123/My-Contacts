@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client": "npm run start --prefix client",
+    "server": "nodemon ./server/index.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -16,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Dylans123/my-contacts/issues"
   },
-  "homepage": "https://github.com/Dylans123/my-contacts#readme"
+  "homepage": "https://github.com/Dylans123/my-contacts#readme",
+  "dependencies": {
+    "concurrently": "^5.0.2"
+  }
 }
