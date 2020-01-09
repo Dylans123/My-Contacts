@@ -1,0 +1,20 @@
+{
+  "name": "my-contacts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dylans123/my-contacts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dylans123/my-contacts/issues"
+  },
+  "homepage": "https://github.com/Dylans123/my-contacts#readme"
+}
