@@ -24,6 +24,6 @@ steps:
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Dylan Azure Subscription (d8d72d9c-5f9b-4812-a495-ed6fb344cc4b)'
-    appType: 'webAppLinux'
+    # appType: 'webAppLinux'
     WebAppName: 'My-Contacts-App'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    # packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
