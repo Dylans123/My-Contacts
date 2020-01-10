@@ -1,21 +1,29 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const cors = require('cors')
+const mongoose = require('mongoose')
 
-const db = require('./db')
+require('dotenv').config();
+
 const contactRouter = require('./routes/contact-router');
 
 const app = express()
-const apiPort = 3000
+const apiPort = 3000 || process.env.PORT
 
-app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
-app.use(bodyParser.json())
+app.use(express.json())
 
-db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+const uri = process.env.MONGO_URI;
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
+mongoose
+    .connect('mongodb+srv://Admin:6W9WCGUrTcWhOEVt@my-contacts-jvurw.azure.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useCreateIndex: true, useMongoClient: true })
+    .catch(e => {
+        console.error('Connection error', e.message)
+    })
+
+const db = mongoose.connection
+
+db.once('open', () => {
+    console.log("MongoDB database connection established successfully");
 })
 
 app.use('/api', contactRouter);

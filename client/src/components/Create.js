@@ -29,7 +29,7 @@ export default class Create extends Component {
 
     render() {
         return (
-            <div class="form-control">
+            <div className="form-control">
                 <input onChange={(e) => this.updateName(e)}>
                 </input>
                 <button onClick={() => this.handleCreate()}>
