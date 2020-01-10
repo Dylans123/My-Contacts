@@ -20,4 +20,10 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
-- task: PublishBuildArtifacts@1
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Dylan Azure Subscription (d8d72d9c-5f9b-4812-a495-ed6fb344cc4b)'
+    appType: 'webAppLinux'
+    WebAppName: 'My-Contacts-App'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
