@@ -15,7 +15,7 @@ app.use(express.json())
 const uri = process.env.MONGO_URI;
 
 mongoose
-    .connect('mongodb+srv://Admin:6W9WCGUrTcWhOEVt@my-contacts-jvurw.azure.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useCreateIndex: true, useMongoClient: true })
+    .connect('mongodb+srv://Admin:6W9WCGUrTcWhOEVt@my-contacts-jvurw.azure.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
     .catch(e => {
         console.error('Connection error', e.message)
     })
