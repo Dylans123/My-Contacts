@@ -16,9 +16,9 @@ export default class NavigationBar extends Component {
 
     render() {
         return (
-                <Navbar color="light" light expand="md">
-                    <NavbarText href="/">mycontacts.us</NavbarText>
-                </Navbar>
+            <Navbar color="light" light expand="md">
+                <NavbarText href="/">mycontacts.us</NavbarText>
+            </Navbar>
         )
     }
 }

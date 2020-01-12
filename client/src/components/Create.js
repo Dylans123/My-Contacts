@@ -33,9 +33,9 @@ export default class Create extends Component {
             <Container>
                 <Form frameBorder>
                     <FormGroup row>
-                        <Label for="contactFirst" sm={2} onChange={(e) => this.updateName(e)}>First</Label>
+                        <Label for="contactFirst" sm={2}>First</Label>
                         <Col sm={10}>
-                            <Input type="firstname" name="firstname" id="contactFirst"/>
+                            <Input type="firstname" name="firstname" id="contactFirst"  onChange={(e) => this.updateName(e)}/>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
