@@ -30,7 +30,6 @@ export default class Create extends Component {
 
     render() {
         return (
-            <Container>
                 <Form frameBorder>
                     <FormGroup row>
                         <Label for="contactFirst" sm={2}>First</Label>
@@ -63,7 +62,6 @@ export default class Create extends Component {
                         </Col>
                     </FormGroup>
                 </Form>
-            </Container>
         )
     }
 }
