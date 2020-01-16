@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Button, Form, FormGroup, Label, Input, Container} from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import api from '../api'
 
 export default class Create extends Component {
@@ -30,7 +30,7 @@ export default class Create extends Component {
 
     render() {
         return (
-                <Form frameBorder>
+                <Form>
                     <FormGroup row>
                         <Label for="contactFirst" sm={2}>First</Label>
                         <Col sm={10}>

@@ -1,22 +1,20 @@
 require("dotenv").config();
 const fs = require("fs");
-
-// const envConfig = dotenv.parse(fs.readFileSync(".env.override"));
-// for (let k in envConfig) {
-//   process.env[k] = envConfig[k];
-// }
 const express = require("express");
 const app = express();
 const path = require("path");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const methodOverride = require("method-override");
+// const methodOverride = require("method-override");
 const passport = require("./config/passport");
-const url = require("url");
+const session = require('express-session');
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session)
+// const url = require("url");
 
 const config = require("./config/config");
 
-const addRequestId = require("express-request-id")();
+// const addRequestId = require("express-request-id")();
 
 const contactRouter = require("./routes/contact-router");
 const authRouter = require("./routes/auth-router");
@@ -24,12 +22,20 @@ const authRouter = require("./routes/auth-router");
 config.connectDB();
 
 // Generate UUID for request and add it to X-Request-Id header. To work along with morgan logging. Adding a request id to the request object, to facilitate tying different log entries to each other. So a Request log and its associated Response log would have the same id.
-app.use(addRequestId);
-app.use(morgan()); // I am both writing to a log file while showing logs on the console.
-app.use(methodOverride("_method"));
+// app.use(addRequestId);
+app.use(morgan('dev')); // I am both writing to a log file while showing logs on the console.
+// app.use(methodOverride("_method"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(
+	session({
+		secret: process.env.APP_SECRET || 'this is the default passphrase',
+		store: new MongoStore({ mongooseConnection: mongoose.connection }),
+		resave: false,
+		saveUninitialized: false
+	})
+)
 app.use(passport.initialize())
 app.use(passport.session())
 

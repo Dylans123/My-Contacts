@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {
     Navbar,
-    NavbarText
-
+    NavbarBrand,
+    Nav,
+    NavItem,
+    NavLink,
 } from 'reactstrap';
 
 export default class NavigationBar extends Component {
@@ -15,9 +17,16 @@ export default class NavigationBar extends Component {
     }
 
     render() {
+        const {_logout} = this.props;
+
         return (
             <Navbar color="light" light expand="md">
-                <NavbarText href="/">mycontacts.us</NavbarText>
+                <NavbarBrand href="/">mycontacts.us</NavbarBrand>
+                <Nav className="mr-auto" navbar>
+                    <NavItem>
+                        <NavLink href="#" onClick={_logout}>Logout</NavLink>
+                    </NavItem>
+                </Nav>
             </Navbar>
         )
     }

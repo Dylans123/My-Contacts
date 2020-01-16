@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Input, Label, Col, Form, FormGroup, Jumbotron, Button } from 'reactstrap';
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
-// import api from '../api';
+import { Redirect } from 'react-router-dom';
 
 class Register extends Component {
     constructor(props) {
@@ -49,8 +48,8 @@ class Register extends Component {
     render() {
         const { email, password, confirm, redirectTo } = this.state;
 
-        if (this.state.redirectTo) {
-			return <Redirect to={{ pathname: this.state.redirectTo }} />
+        if (redirectTo) {
+			return <Redirect to={{ pathname: redirectTo }} />
         }
         
         return (
@@ -60,7 +59,7 @@ class Register extends Component {
                         <h1 className="display-3">Register</h1>
                         <p className="lead">Create an account below to begin keeping track of contacts!</p>
                         <hr className="my-2" />
-                        <Form frameBorder onSubmit={this.onSubmit}>
+                        <Form onSubmit={this.onSubmit}>
                             <FormGroup row>
                                 <Label for="userEmail" sm={3}>Email</Label>
                                 <Col sm={9}>
