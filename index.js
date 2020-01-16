@@ -11,6 +11,7 @@ const path = require("path");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+const passport = require("./config/passport");
 const url = require("url");
 
 const config = require("./config/config");
@@ -18,6 +19,7 @@ const config = require("./config/config");
 const addRequestId = require("express-request-id")();
 
 const contactRouter = require("./routes/contact-router");
+const authRouter = require("./routes/auth-router");
 
 config.connectDB();
 
@@ -27,6 +29,9 @@ app.use(morgan()); // I am both writing to a log file while showing logs on the 
 app.use(methodOverride("_method"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 morgan.token("id", function getId(req) {
   return req.id;
@@ -86,6 +91,8 @@ app.use(
 app.use(express.static(path.join(__dirname, "/client/build")));
 
 app.use('/api/', contactRouter);
+
+app.use('/auth', authRouter);
 
 app.get("/*", (req, res) => {
 	res.sendFile(path.join(__dirname, "/client/build/index.html"));
