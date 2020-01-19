@@ -33,6 +33,20 @@ createContact = (req, res) => {
         })
 }
 
+// Gets contacts and returns json
+getContact = (req, res) => {
+    Contact.find()
+        .sort({ date: -1 })
+        .then(contacts => res.json(contacts))
+        .catch(error => {
+            return res.status(400).json({
+                error,
+                message: 'Error getting contacts',
+            })
+        });
+};
+
 module.exports = {
-    createContact
+    createContact,
+    getContact
 }
