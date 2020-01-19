@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import Create from './Create';
-import ContactsList from './ContactsList';
+import ContactsList from './contactsList';
 import axios from 'axios';
 
 class Contacts extends Component {
