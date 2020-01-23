@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Table, Input, Row, Col, Button } from 'reactstrap';
+import { Table, Input, Col, Button } from 'reactstrap';
 import api from '../api'
 import { MdEdit } from "react-icons/md";
 import { FaTimes } from "react-icons/fa";
 import { MdRefresh } from "react-icons/md";
-
-
 
 export default class ContactsList extends Component {
 
@@ -15,6 +13,10 @@ export default class ContactsList extends Component {
             name: '',
             contactsarray: [],
         }
+    }
+
+    componentDidMount(){
+        this.getContacts()
     }
 
     getContacts = () => {
@@ -77,17 +79,6 @@ export default class ContactsList extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>111-1111</td>
-                                <td>motto@gmail.com</td>
-                                <td>
-                                    <button type="button" className="close" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </td>
-                            </tr>
                             {this.contactList()}
                         </tbody>
                     </Table>
