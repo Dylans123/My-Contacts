@@ -5,23 +5,23 @@ search = (req, res) => {
 			{$match: {"user_id": req.params.user_id}},
 			{$unwind: "$contacts"},
 			{$match: {$or: [
-				{"contacts.first_name": {$regex: req.params.query}},
-				{"contacts.last_name": {$regex: req.params.query}},
-				{"contacts.phone_number": {$regex: req.params.query}},
-				{"contacts.email": {$regex: req.params.query}}
+				{"contacts.first_name": {$regex: req.params.query, '$options' : 'i'}},
+				{"contacts.last_name": {$regex: req.params.query, '$options' : 'i'}},
+				{"contacts.phone_number": {$regex: req.params.query, '$options' : 'i'}},
+				{"contacts.email": {$regex: req.params.query, '$options' : 'i'}}
 			]}}
 		],
 		(err, results) => {
 			if (err) {
-				res.status(400).json({'message': 'Error.'});
-			}
-
-			if (results != "") {
+                res.json({'success': false, 'message': 'An error has occurred.'});
+            }
+			
+            if (results != "") {
 				res.json(results);
 			}
-			else {
-				res.status(400).json({'message': 'No search results.'});
-			}
+            else {
+                res.json({'success': false, 'message': 'No search results.'});
+            }
 		})
 }
 

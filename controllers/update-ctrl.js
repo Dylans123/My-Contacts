@@ -11,23 +11,22 @@ update = (req, res) => {
 		{
 			$set:
 			{
-				"contacts.$.first_name": contact.contacts[0].first_name,
-				"contacts.$.last_name": contact.contacts[0].last_name,
-				"contacts.$.phone_number": contact.contacts[0].phone_number,
-				"contacts.$.email": contact.contacts[0].email
+				"contacts.$.first_name": contact.contacts.first_name,
+				"contacts.$.last_name": contact.contacts.last_name,
+				"contacts.$.phone_number": contact.contacts.phone_number,
+				"contacts.$.email": contact.contacts.email
 			}
 		},
-		{},
         (err, result) => {
             if (err) {
-                res.status(400).json({'message': 'Error.'});
+                res.json({'success': false, 'message': 'An error has occurred.'});
             }
-            
-            if (result) {
-                res.status(200).json({'message': 'Success.'});
+			
+            if (result.nModified > 0) {
+                res.json({'success': true, 'message': 'Contact has been updated.'});
             }
             else {
-                res.status(400).json({'message': 'Unsuccessful.'});
+                res.json({'success': false, 'message': 'Contact has not been updated.'});
             }
         })
 };
