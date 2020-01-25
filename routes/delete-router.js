@@ -1,4 +1,4 @@
-// Delete a contact.
+// Deletes a contact.
 // Must provide user_id in route.
 // Must provide contact_id in route.
 

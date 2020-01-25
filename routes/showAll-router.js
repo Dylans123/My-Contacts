@@ -1,4 +1,4 @@
-// Display all contacts.
+// Displays all contacts.
 // Must provide user_id in route.
 // 
 // Example return object:
@@ -19,7 +19,7 @@
 //     },
 //     {
 //         "_id": "5e2a675ca8dc044bdf7db241",
-//         "user_id": "00002",
+//         "user_id": "00001",
 //         "__v": 0,
 //         "contacts": {
 //             "_id": "5e2a7a67d051b2628a599f85",

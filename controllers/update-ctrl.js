@@ -1,9 +1,11 @@
 const Contacts = require('../models/contacts-model');
 
-update = (req, res) => {
+update = (req, res) =>
+{
 	let contact = req.body;
 
-    Contacts.updateOne(
+	Contacts.updateOne
+	(
 		{
 			user_id: req.params.user_id,
 			"contacts._id": req.params.contact_id
@@ -17,18 +19,23 @@ update = (req, res) => {
 				"contacts.$.email": contact.contacts.email
 			}
 		},
-        (err, result) => {
-            if (err) {
+		(err, result) =>
+		{
+			if (err)
+			{
                 res.json({'success': false, 'message': 'An error has occurred.'});
             }
 			
-            if (result.nModified > 0) {
+			if (result.nModified > 0)
+			{
                 res.json({'success': true, 'message': 'Contact has been updated.'});
             }
-            else {
+			else
+			{
                 res.json({'success': false, 'message': 'Contact has not been updated.'});
             }
-        })
+		}
+	)
 };
 
 module.exports = {update};

@@ -1,13 +1,17 @@
 const Contacts = require('../models/contacts-model');
 
-add = (req, res) => {
+add = (req, res) =>
+{
     let contact = req.body;
 
-    Contacts.update(
+    Contacts.update
+    (
         {user_id: req.params.user_id},
         {
-            $push: {
-                contacts: [
+            $push:
+            {
+                contacts:
+                [
                     {
                         first_name: contact.contacts.first_name,
                         last_name: contact.contacts.last_name,
@@ -18,18 +22,23 @@ add = (req, res) => {
             }
         },
         {upsert: true},
-        (err, result) => {
-            if (err) {
+        (err, result) =>
+        {
+            if (err)
+            {
                 res.json({'success': false, 'message': 'An error has occurred.'});
             }
 			
-            if (result.nModified > 0) {
+            if (result.nModified > 0)
+            {
                 res.json({'success': true, 'message': 'Contact has been added.'});
             }
-            else {
+            else
+            {
                 res.json({'success': false, 'message': 'Contact has not been added.'});
             }
-        })
+        }
+    )
 };
 
 module.exports = {add};
