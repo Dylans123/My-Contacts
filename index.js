@@ -20,6 +20,10 @@ const addRouter = require("./routes/add-router");
 const searchRouter = require("./routes/search-router");
 const updateRouter = require("./routes/update-router");
 const authRouter = require("./routes/auth-router");
+const showAllRouter = require("./routes/showAll-router");
+const deleteRouter = require("./routes/delete-router");
+// const search2Router = require("./routes/search2-router");
+
 
 config.connectDB();
 
@@ -101,6 +105,9 @@ app.use(express.static(path.join(__dirname, "/client/build")));
 app.use('/api', addRouter);
 app.use('/api', searchRouter);
 app.use('/api', updateRouter);
+app.use('/api', showAllRouter);
+app.use('/api', deleteRouter);
+// app.use('/api', search2Router);
 
 app.use('/auth', authRouter);
 
