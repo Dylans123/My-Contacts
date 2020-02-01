@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { Redirect } from 'react-router-dom';
-
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -83,9 +82,9 @@ class Register extends Component {
         }
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" >
           <CssBaseline />
-          <div className={classes.paper}>
+          <div className={classes.paper} >
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
