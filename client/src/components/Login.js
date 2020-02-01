@@ -80,9 +80,8 @@ class Login extends Component {
 		return (
 			<Grid
 				container
-				fixed
 				className={classes.root}
-				direction="Row"
+				direction="row"
 				justify="center"
 				alignItems="center"
 			>
@@ -105,6 +104,7 @@ class Login extends Component {
 								id="email"
 								label="Email Address"
 								name="email"
+								value={email}
 								autoComplete="email"
 								autoFocus
 								onChange={this.handleChange}
@@ -118,6 +118,7 @@ class Login extends Component {
 								label="Password"
 								type="password"
 								id="password"
+								value={password}
 								autoComplete="current-password"
 								onChange={this.handleChange}
 							/>

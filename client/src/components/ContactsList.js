@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import api from "../api";
 import { MdEdit } from "react-icons/md";
 import { FaTimes } from "react-icons/fa";
-import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableBody from "@material-ui/core/TableBody";

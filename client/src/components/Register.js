@@ -39,7 +39,6 @@ class Register extends Component {
 		this.state = {
 			email: "",
 			password: "",
-			confirm: "",
 			redirectTo: null
 		};
 		this.onSubmit = this.onSubmit.bind(this);
@@ -75,7 +74,7 @@ class Register extends Component {
 	}
 
 	render() {
-		const { email, password, confirm, redirectTo } = this.state;
+		const { email, password, redirectTo } = this.state;
 		const { classes } = this.props;
 
 		if (redirectTo) {
@@ -104,6 +103,7 @@ class Register extends Component {
 									id="email"
 									label="Email Address"
 									name="email"
+									value={email}
 									autoComplete="email"
 									onChange={this.handeChange}
 								/>
@@ -117,6 +117,7 @@ class Register extends Component {
 									label="Password"
 									type="password"
 									id="password"
+									value={password}
 									autoComplete="current-password"
 									onChange={this.handeChange}
 								/>
