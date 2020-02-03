@@ -69,7 +69,7 @@ export default class ContactsList extends Component {
 			);
 		});
 	}
-
+	//<TableBody>{this.contactList()}</TableBody>
 	render() {
 		return (
 			<div>
@@ -84,7 +84,26 @@ export default class ContactsList extends Component {
 								<TableCell />
 							</TableRow>
 						</TableHead>
-						<TableBody>{this.contactList()}</TableBody>
+						<TableBody>
+							<TableRow>
+								<TableCell> Mc </TableCell>
+								<TableCell> Lovin </TableCell>
+								<TableCell> 111-1111 </TableCell>
+								<TableCell> mclovin@gmail.com </TableCell>
+								<TableCell align="right">
+									<Button type="button" className="close" aria-label="Close">
+										<span aria-hidden="true">
+											<FaTimes />
+										</span>
+									</Button>
+									<Button type="button" className="close" aria-label="Close">
+										<span aria-hidden="true">
+											<MdEdit />
+										</span>
+									</Button>
+								</TableCell>
+							</TableRow>
+						</TableBody>
 					</Table>
 				</TableContainer>
 			</div>
