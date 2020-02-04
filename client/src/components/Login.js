@@ -10,7 +10,15 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
 	root: {
-		height: "90vh"
+		display: 'flex',
+		direction:"column",
+		justifyContent:"center",
+		alignItems:"center",
+		height: "100vh"
+	},
+	gridContainer: {
+		width: '60%',
+		height: '60%',
 	},
 	image: {
 		backgroundImage: "url(https://source.unsplash.com/random)",
@@ -23,15 +31,15 @@ const styles = theme => ({
 		backgroundPosition: "center"
 	},
 	paper: {
-		margin: theme.spacing(20, 6),
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
-		maxWidth: 350
+		justifyContent: "center",
+		padding: theme.spacing(100),
 	},
 	avatar: {
 		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main
+		backgroundColor: theme.palette.secondary.main,
 	},
 	form: {
 		width: "100%", // Fix IE 11 issue.
@@ -78,15 +86,11 @@ class Login extends Component {
 		}
 
 		return (
-			<Grid
-				container
+			<div
 				className={classes.root}
-				direction="row"
-				justify="center"
-				alignItems="center"
 			>
-				<Grid container lg={7} component={Paper} elevation={6} square>
-					<Grid item className={classes.paper}>
+				<Grid container component={Paper} elevation={6} square className={classes.gridContainer} spacing={10}>
+					<Grid item xl={4} lg={4} md={4} sm={4} xs={4} className={classes.paper}>
 						<Typography component="h1" variant="h4">
 							Welcome!
 						</Typography>
@@ -132,16 +136,14 @@ class Login extends Component {
 							>
 								Sign In
 							</Button>
-							<Grid container>
 								<Grid item>
 									<Link to="/register">{"Don't have an account? Sign Up"}</Link>
 								</Grid>
-							</Grid>
 						</form>
 					</Grid>
-					<Grid item lg={7} component={Paper} className={classes.image}></Grid>
+					<Grid item xl={8} lg={8} md={8} sm={8} xs={8} component={Paper} className={classes.image}></Grid>
 				</Grid>
-			</Grid>
+			</div>
 		);
 	}
 }

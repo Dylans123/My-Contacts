@@ -9,8 +9,11 @@ import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 const styles = theme => ({
+	root: {
+		height: '100vh'
+	},
 	paper: {
-		margin: theme.spacing(3, 0)
+		marginTop: 20
 	}
 });
 
@@ -62,15 +65,14 @@ class Contacts extends Component {
 		const { user } = this.state;
 		const { classes } = this.props;
 		console.log(user === null);
+
 		if (user) {
 			return (
-				<div>
+				<div className={classes.root}>
 					<AppBar _logout={this._logout} />
 					<Container
-						component="main"
-						className={classes.paper}
-						justify="center"
-						maxWidth="xl"
+						className={classes.root}
+						justifyContent="center"
 					>
 						<Grid
 							container
@@ -78,7 +80,7 @@ class Contacts extends Component {
 							direction="row"
 							justify="center"
 							alignItems="center"
-							spacing={2}
+							spacing={5}
 						>
 							<Grid xs={6} item>
 								<Search />
@@ -87,7 +89,7 @@ class Contacts extends Component {
 								<Create />
 							</Grid>
 						</Grid>
-						<Grid item>
+						<Grid xl={12} item>
 							<ContactsList />
 						</Grid>
 					</Container>

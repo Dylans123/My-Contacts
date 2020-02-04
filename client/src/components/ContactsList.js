@@ -72,8 +72,7 @@ export default class ContactsList extends Component {
 	//<TableBody>{this.contactList()}</TableBody>
 	render() {
 		return (
-			<div>
-				<TableContainer>
+				<TableContainer fullWidth>
 					<Table aria-label="simple table">
 						<TableHead>
 							<TableRow>
@@ -106,7 +105,6 @@ export default class ContactsList extends Component {
 						</TableBody>
 					</Table>
 				</TableContainer>
-			</div>
 		);
 	}
 }

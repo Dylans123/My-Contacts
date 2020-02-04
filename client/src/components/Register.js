@@ -12,13 +12,18 @@ import Paper from "@material-ui/core/Paper";
 
 const styles = theme => ({
 	root: {
-		height: "40vh"
+		height: "100vh",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center"
 	},
 	paper: {
-		marginTop: theme.spacing(20),
 		display: "flex",
 		flexDirection: "column",
-		alignItems: "center"
+		alignItems: "center",
+		justifyContent: "center",
+		height: '40%',
+		width: '25%'
 	},
 	avatar: {
 		margin: theme.spacing(1),
@@ -82,18 +87,12 @@ class Register extends Component {
 		}
 
 		return (
-			<Container
-				className={classes.root}
-				component={Paper}
-				maxWidth="xs"
-				elevation={6}
-				square
-			>
-				<div className={classes.paper}>
+			<div className={classes.root}>
+				<Container component={Paper} elevation={6} square className={classes.paper}>
 					<Typography component="h1" variant="h5">
 						Sign up
 					</Typography>
-					<form className={classes.form} noValidate onSubmit={this.onSubmit}>
+					<form className={classes.form} onSubmit={this.onSubmit}>
 						<Grid container spacing={2}>
 							<Grid item xs={12}>
 								<TextField
@@ -103,7 +102,6 @@ class Register extends Component {
 									id="email"
 									label="Email Address"
 									name="email"
-									value={email}
 									autoComplete="email"
 									onChange={this.handeChange}
 								/>
@@ -117,7 +115,6 @@ class Register extends Component {
 									label="Password"
 									type="password"
 									id="password"
-									value={password}
 									autoComplete="current-password"
 									onChange={this.handeChange}
 								/>
@@ -132,14 +129,14 @@ class Register extends Component {
 						>
 							Sign Up
 						</Button>
-						<Grid container justify="flex-end">
+						<Grid container justify="flex-start">
 							<Grid item>
 								<Link to="/login">Already have an account? Sign in</Link>
 							</Grid>
 						</Grid>
 					</form>
-				</div>
-			</Container>
+				</Container>
+			</div>
 		);
 	}
 }
