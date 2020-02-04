@@ -5,9 +5,11 @@ const api = axios.create({
 })
 
 export const createContact = payload => api.post(`/contacts`, payload);
+export const getContact = payload => api.get(`/contacts`, payload);
 
 const apis = {
     createContact,
+    getContact
 }
 
 export default apis
