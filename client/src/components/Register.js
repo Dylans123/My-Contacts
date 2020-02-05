@@ -44,17 +44,20 @@ class Register extends Component {
 		this.state = {
 			email: "",
 			password: "",
-			redirectTo: null
+			redirectTo: null,
+			errorText: "",
 		};
 		this.onSubmit = this.onSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 	}
 
 	onSubmit = event => {
+		const { email, password } = this.state;
+		console.log(email);
+		console.log(password);
 		console.log("Username: " + email)
 		console.log("Password: " + password)
 		event.preventDefault();
-		const { email, password } = this.state;
 		axios
 			.post("/auth/register", {
 				username: email,
@@ -62,14 +65,20 @@ class Register extends Component {
 			})
 			.then(response => {
 				console.log(response);
-				if (!response.data.errmsg) {
+				if (!response.data.error) {
 					console.log("youre good");
 					this.setState({
 						redirectTo: "/login"
 					});
 				} else {
-					console.log("duplicate");
+					const errorText = response.data.error;
+					this.setState({
+						errorText,
+					})
 				}
+			})
+			.catch(err => {
+				console.log(err);
 			});
 		console.log("username: " + email);
 	};
@@ -81,7 +90,7 @@ class Register extends Component {
 	}
 
 	render() {
-		const { redirectTo } = this.state;
+		const { redirectTo, errorText } = this.state;
 		const { classes } = this.props;
 
 		if (redirectTo) {
@@ -91,6 +100,7 @@ class Register extends Component {
 		return (
 			<div className={classes.root}>
 				<Container component={Paper} elevation={6} square className={classes.paper}>
+					<div style={{ color: 'red' }}>{errorText}</div>
 					<Typography component="h1" variant="h5">
 						Sign up
 					</Typography>
@@ -105,7 +115,7 @@ class Register extends Component {
 									label="Email Address"
 									name="email"
 									autoComplete="email"
-									onChange={this.handeChange}
+									onChange={this.handleChange}
 								/>
 							</Grid>
 							<Grid item xs={12}>
@@ -118,7 +128,7 @@ class Register extends Component {
 									type="password"
 									id="password"
 									autoComplete="current-password"
-									onChange={this.handeChange}
+									onChange={this.handleChange}
 								/>
 							</Grid>
 						</Grid>

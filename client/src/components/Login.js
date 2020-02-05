@@ -56,7 +56,8 @@ class Login extends Component {
 		this.state = {
 			email: "",
 			password: "",
-			redirectTo: null
+			redirectTo: null,
+			errorText: "",
 		};
 		this.onSubmit = this.onSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -78,8 +79,8 @@ class Login extends Component {
 
 	render() {
 		const { redirectTo, email, password } = this.state;
-
-		const { classes } = this.props;
+		const { classes, errorText } = this.props;
+		console.log(errorText);
 
 		if (redirectTo) {
 			return <Redirect to={{ pathname: redirectTo }} />;
@@ -91,6 +92,7 @@ class Login extends Component {
 			>
 				<Grid container component={Paper} elevation={6} square className={classes.gridContainer} spacing={10}>
 					<Grid item xl={4} lg={4} md={4} sm={4} xs={4} className={classes.paper}>
+						<div style={{ color: 'red' }}>{errorText}</div>
 						<Typography component="h1" variant="h4">
 							Welcome!
 						</Typography>

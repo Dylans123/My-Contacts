@@ -114,6 +114,7 @@ class ContactsList extends Component {
 
 	render() {
 		const { classes } = this.props;
+		const { contactsarray } = this.state;
 
 		return (
 			<div>
@@ -151,7 +152,7 @@ class ContactsList extends Component {
 								<TableCell />
 							</TableRow>
 						</TableHead>
-						<TableBody>{this.contactList()}</TableBody>
+						<TableBody>{contactsarray.length != 0 ? this.contactList() : 'no contacts currently'}</TableBody>
 					</Table>
 				</TableContainer>
 			</div>

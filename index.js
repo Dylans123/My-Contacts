@@ -101,6 +101,7 @@ app.use(
 );
 
 app.use(express.static(path.join(__dirname, "/client/build")));
+app.use('/auth', authRouter);
 
 app.use('/api', addRouter);
 app.use('/api', searchRouter);
@@ -108,8 +109,6 @@ app.use('/api', updateRouter);
 app.use('/api', showAllRouter);
 app.use('/api', deleteRouter);
 // app.use('/api', search2Router);
-
-app.use('/auth', authRouter);
 
 app.get("/*", (req, res) => {
 	res.sendFile(path.join(__dirname, "/client/build/index.html"));
@@ -119,7 +118,7 @@ app.use((err, req, res, next) => {
 	res.status(422).send({ error: err._message });
 });
   
-app.listen(8080, () => {
+app.listen(process.env.port || 8080, () => {
 	console.log("Express Server running on port 8080");
 });
 
