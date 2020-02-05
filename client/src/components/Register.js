@@ -51,6 +51,8 @@ class Register extends Component {
 	}
 
 	onSubmit = event => {
+		console.log("Username: " + email)
+		console.log("Password: " + password)
 		event.preventDefault();
 		const { email, password } = this.state;
 		axios
@@ -79,7 +81,7 @@ class Register extends Component {
 	}
 
 	render() {
-		const { email, password, redirectTo } = this.state;
+		const { redirectTo } = this.state;
 		const { classes } = this.props;
 
 		if (redirectTo) {
