@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Grid from "@material-ui/core/Grid";
-import Create from "./Create";
-import Search from "./Search";
 import ContactsList from "./ContactsList";
 import AppBar from "./AppBar";
 import { withStyles } from "@material-ui/core/styles";
@@ -10,10 +8,13 @@ import Container from "@material-ui/core/Container";
 
 const styles = theme => ({
 	root: {
-		height: '100vh'
+		height: "100vh"
 	},
 	paper: {
 		marginTop: 20
+	},
+	table: {
+		marginTop: 40
 	}
 });
 
@@ -70,10 +71,7 @@ class Contacts extends Component {
 			return (
 				<div className={classes.root}>
 					<AppBar _logout={this._logout} />
-					<Container
-						className={classes.root}
-						justifyContent="center"
-					>
+					<Container maxWidth="xl">
 						<Grid
 							container
 							className={classes.paper}
@@ -82,15 +80,9 @@ class Contacts extends Component {
 							alignItems="center"
 							spacing={5}
 						>
-							<Grid xs={6} item>
-								<Search />
-							</Grid>
-							<Grid item>
-								<Create />
-							</Grid>
 						</Grid>
-						<Grid xl={12} item>
-							<ContactsList />
+						<Grid item className={classes.table}>
+							<ContactsList user={this.state.user}/>
 						</Grid>
 					</Container>
 				</div>
