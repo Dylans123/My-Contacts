@@ -1,21 +1,43 @@
 import React, { Component } from "react";
 import api from "../api";
-import { MdEdit } from "react-icons/md";
-import { FaTimes } from "react-icons/fa";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
 
-export default class ContactsList extends Component {
+const styles = theme => ({
+	tablehead: {
+		fontSize: "18pt"
+	},
+	tablecell: {
+		fontSize: "12pt"
+	},
+	gridContainer: {
+		width: "100%",
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		marginBottom: 30
+	}
+});
+
+class ContactsList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			name: "",
-			contactsarray: []
+			contactsarray: [],
+			userID: this.props.user._id
 		};
 	}
 
@@ -23,9 +45,33 @@ export default class ContactsList extends Component {
 		this.getContacts();
 	}
 
-	getContacts = () => {
+	updateName = e => {
+		const name = e.target.value;
+		this.setState({ name });
+	};
+
+	handleCreate = async () => {
+		const user_id = this.state.userID;
+
+		const payload = {
+			"contacts":{
+				first_name:"TheFlash",
+				last_name:"Barry",
+				phone_number:"111-222-3344",
+				email:"jl@gmail.com",
+		}};
+		console.log("User: ");
+		console.log(user_id);
+		console.log("This is the payload");
+		console.log(payload);
+		await api.addContact(user_id, payload).then(res => {
+			window.alert(`Contact inserted successfully`);
+		});
+	};
+
+	getContacts() {
 		api
-			.getContact()
+			.getContact(this.state.userID)
 			.then(res => {
 				this.setState({
 					name: "",
@@ -43,68 +89,74 @@ export default class ContactsList extends Component {
 			.catch(function(error) {
 				console.log(error);
 			});
-	};
+	}
 
-	contactList() {
+	contactList = () => {
 		return this.state.contactsarray.map(function(currentContact, i) {
 			return (
 				<TableRow>
-					<TableCell> {currentContact.name} </TableCell>
-					<TableCell> Lastnamefiller </TableCell>
-					<TableCell> 111-1111 </TableCell>
-					<TableCell> email@gmail.com </TableCell>
+					<TableCell> {currentContact.contacts.first_name} </TableCell>
+					<TableCell> {currentContact.contacts.last_name} </TableCell>
+					<TableCell> {currentContact.contacts.phone_number} </TableCell>
+					<TableCell> {currentContact.contacts.email} </TableCell>
 					<TableCell align="right">
-						<Button type="button" className="close" aria-label="Close">
-							<span aria-hidden="true">
-								<FaTimes />
-							</span>
-						</Button>
-						<Button type="button" className="close" aria-label="Close">
-							<span aria-hidden="true">
-								<MdEdit />
-							</span>
-						</Button>
+						<IconButton aria-label="edit">
+							<EditIcon />
+						</IconButton>
+						<IconButton aria-label="delete">
+							<DeleteIcon />
+						</IconButton>
 					</TableCell>
 				</TableRow>
 			);
 		});
-	}
-	//<TableBody>{this.contactList()}</TableBody>
+	};
+
 	render() {
+		const { classes } = this.props;
+
 		return (
-				<TableContainer fullWidth>
-					<Table aria-label="simple table">
+			<div>
+				<Grid container spacing={3} className={classes.gridContainer}>
+					<Grid item xl={7} lg={7} md={7} sm={7} xs={4}>
+						<TextField
+							fullWidth
+							id="outlined-search"
+							label="Search field"
+							type="search"
+							variant="outlined"
+						/>
+					</Grid>
+					<Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
+						<Button
+							variant="contained"
+							size="large"
+							color="primary"
+							onClick={this.handleCreate}
+						>
+							Create Contact
+						</Button>
+					</Grid>
+				</Grid>
+				<TableContainer>
+					<Table aria-label="sticky table">
 						<TableHead>
-							<TableRow>
-								<TableCell>First Name</TableCell>
-								<TableCell>Last Name</TableCell>
-								<TableCell>Phone Number</TableCell>
-								<TableCell>Email</TableCell>
+							<TableRow className={classes.table}>
+								<TableCell className={classes.tablehead}>First Name</TableCell>
+								<TableCell className={classes.tablehead}>Last Name</TableCell>
+								<TableCell className={classes.tablehead}>
+									Phone Number
+								</TableCell>
+								<TableCell className={classes.tablehead}>Email</TableCell>
 								<TableCell />
 							</TableRow>
 						</TableHead>
-						<TableBody>
-							<TableRow>
-								<TableCell> Mc </TableCell>
-								<TableCell> Lovin </TableCell>
-								<TableCell> 111-1111 </TableCell>
-								<TableCell> mclovin@gmail.com </TableCell>
-								<TableCell align="right">
-									<Button type="button" className="close" aria-label="Close">
-										<span aria-hidden="true">
-											<FaTimes />
-										</span>
-									</Button>
-									<Button type="button" className="close" aria-label="Close">
-										<span aria-hidden="true">
-											<MdEdit />
-										</span>
-									</Button>
-								</TableCell>
-							</TableRow>
-						</TableBody>
+						<TableBody>{this.contactList()}</TableBody>
 					</Table>
 				</TableContainer>
+			</div>
 		);
 	}
 }
+
+export default withStyles(styles, { withTheme: true })(ContactsList);
