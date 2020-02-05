@@ -36,7 +36,7 @@ class ContactsList extends Component {
 		super(props);
 		this.state = {
 			name: "",
-			contactsarray: [],
+			contactsArray: [],
 			userID: this.props.user._id
 		};
 	}
@@ -75,10 +75,10 @@ class ContactsList extends Component {
 			.then(res => {
 				this.setState({
 					name: "",
-					contactsarray: res.data
+					contactsArray: res.data
 				});
 
-				console.log(this.state.contactsarray);
+				console.log(this.state.contactsArray);
 
 				if (!res.data.errmsg) {
 					console.log("Data fetched");
@@ -92,7 +92,7 @@ class ContactsList extends Component {
 	}
 
 	contactList = () => {
-		return this.state.contactsarray.map(function(currentContact, i) {
+		return this.state.contactsArray.map(function(currentContact, i) {
 			return (
 				<TableRow>
 					<TableCell> {currentContact.contacts.first_name} </TableCell>
@@ -114,7 +114,9 @@ class ContactsList extends Component {
 
 	render() {
 		const { classes } = this.props;
-		const { contactsarray } = this.state;
+		const { contactsArray } = this.state;
+
+		console.log(contactsArray)
 
 		return (
 			<div>
@@ -152,7 +154,7 @@ class ContactsList extends Component {
 								<TableCell />
 							</TableRow>
 						</TableHead>
-						<TableBody>{contactsarray.length != 0 ? this.contactList() : 'no contacts currently'}</TableBody>
+						<TableBody>{contactsArray.length != 0 ? this.contactList() : 'no contacts currently'}</TableBody>
 					</Table>
 				</TableContainer>
 			</div>
