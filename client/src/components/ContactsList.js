@@ -73,10 +73,13 @@ class ContactsList extends Component {
 		api
 			.getContact(this.state.userID)
 			.then(res => {
-				this.setState({
-					name: "",
-					contactsArray: res.data
-				});
+				console.log(res);
+				if (res.data.success) {
+					this.setState({
+						name: "",
+						contactsArray: res.data.results
+					});
+				}
 
 				console.log(this.state.contactsArray);
 
@@ -92,24 +95,27 @@ class ContactsList extends Component {
 	}
 
 	contactList = () => {
-		return this.state.contactsArray.map(function(currentContact, i) {
-			return (
-				<TableRow>
-					<TableCell> {currentContact.contacts.first_name} </TableCell>
-					<TableCell> {currentContact.contacts.last_name} </TableCell>
-					<TableCell> {currentContact.contacts.phone_number} </TableCell>
-					<TableCell> {currentContact.contacts.email} </TableCell>
-					<TableCell align="right">
-						<IconButton aria-label="edit">
-							<EditIcon />
-						</IconButton>
-						<IconButton aria-label="delete">
-							<DeleteIcon />
-						</IconButton>
-					</TableCell>
-				</TableRow>
-			);
-		});
+		const { contactsArray } = this.state;
+		return (
+			contactsArray.map(function(currentContact, i) {
+				return (
+					<TableRow>
+						<TableCell> {currentContact.contacts.first_name} </TableCell>
+						<TableCell> {currentContact.contacts.last_name} </TableCell>
+						<TableCell> {currentContact.contacts.phone_number} </TableCell>
+						<TableCell> {currentContact.contacts.email} </TableCell>
+						<TableCell align="right">
+							<IconButton aria-label="edit">
+								<EditIcon />
+							</IconButton>
+							<IconButton aria-label="delete">
+								<DeleteIcon />
+							</IconButton>
+						</TableCell>
+					</TableRow>
+				);
+			})
+		)
 	};
 
 	render() {
