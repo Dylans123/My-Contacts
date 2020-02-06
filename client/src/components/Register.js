@@ -23,7 +23,20 @@ const styles = theme => ({
 		alignItems: "center",
 		justifyContent: "center",
 		height: '40%',
-		width: '25%'
+		[theme.breakpoints.up('xs')]: {
+			width: '90%'
+		},
+		[theme.breakpoints.up('sm')]: {
+			width: '60%'
+		},
+		[theme.breakpoints.up('md')]: {
+			width: '40%'
+		},
+		[theme.breakpoints.up('lg')]: {
+			width: '25%'
+		}
+
+		
 	},
 	avatar: {
 		margin: theme.spacing(1),

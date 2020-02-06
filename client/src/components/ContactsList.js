@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import api from "../api";
+import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableBody from "@material-ui/core/TableBody";
@@ -29,6 +30,11 @@ const styles = theme => ({
 		alignItems: "center",
 		justifyContent: "center",
 		marginBottom: 30
+	},
+	tableContainer: {
+		height: 800,
+		width: "100%",
+		overflow: "auto"
 	}
 });
 
@@ -116,7 +122,7 @@ class ContactsList extends Component {
 		return (
 			<div>
 				<Grid container spacing={3} className={classes.gridContainer}>
-					<Grid item xl={7} lg={7} md={7} sm={7} xs={4}>
+					<Grid item xl={7} lg={7} md={7} sm={7} xs={7}>
 						<TextField
 							fullWidth
 							id="outlined-search"
@@ -128,7 +134,15 @@ class ContactsList extends Component {
 							onChange={ this.handleOnInputChange }
 						/>
 					</Grid>
-					<Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
+					<Grid
+						item
+						xl={2}
+						lg={2}
+						md={2}
+						sm={2}
+						xs={2}
+						style={{ marginRight: 50 }}
+					>
 						<Button
 							variant="contained"
 							size="large"
@@ -139,10 +153,10 @@ class ContactsList extends Component {
 						</Button>
 					</Grid>
 				</Grid>
-				<TableContainer>
-					<Table aria-label="sticky table">
+				<TableContainer className={classes.tableContainer}>
+					<Table aria-label="sticky table" stickyHeader>
 						<TableHead>
-							<TableRow className={classes.table}>
+							<TableRow>
 								<TableCell className={classes.tablehead}>First Name</TableCell>
 								<TableCell className={classes.tablehead}>Last Name</TableCell>
 								<TableCell className={classes.tablehead}>
