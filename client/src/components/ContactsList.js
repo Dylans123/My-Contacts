@@ -13,6 +13,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
 	tablehead: {
@@ -35,6 +36,10 @@ class ContactsList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			search:'',
+			results: {},
+			loading: false,
+			message: '',
 			name: "",
 			userID: this.props.user._id
 		};
@@ -43,6 +48,40 @@ class ContactsList extends Component {
 	updateName = e => {
 		const name = e.target.value;
 		this.setState({ name });
+	};
+
+	handleOnInputChange = ( event ) => {
+		const { user } = this.props;
+		const search = event.target.value;
+		const userId = user._id;
+		const payload = {
+			"contacts":{
+				first_name:"diffscrub",
+				last_name:"xd",
+				phone_number:"541-342",
+				email:"plswark@outlook.com",
+		}}; 
+
+		console.log(search) // prints the value ( of the search)
+		this.setState({ 
+			search, 
+			loading: true,
+			message: '',
+		})
+		console.log(this.state) // logs everything in the state object 
+
+		if(search != ""){
+			api.searchContact(userId, search, payload).then(res => {
+				this.setState({
+					name: "",
+					contactsarray: res.data
+				});
+			});
+		}
+	};
+
+	getSearchResults = ( updatedPageNo, search ) => {
+		const searchUrl = `INSERTAPIHERE`
 	};
 
 	contactList = () => {
@@ -71,9 +110,9 @@ class ContactsList extends Component {
 
 	render() {
 		const { classes, handleCreate, contacts } = this.props;
+		const { search } = this.state;
 
 		console.log(contacts)
-
 		return (
 			<div>
 				<Grid container spacing={3} className={classes.gridContainer}>
@@ -84,6 +123,9 @@ class ContactsList extends Component {
 							label="Search field"
 							type="search"
 							variant="outlined"
+							name = "search"
+							value={search}
+							onChange={ this.handleOnInputChange }
 						/>
 					</Grid>
 					<Grid item xl={2} lg={2} md={2} sm={2} xs={2}>

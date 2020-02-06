@@ -131,7 +131,7 @@ class Contacts extends Component {
 						>
 						</Grid>
 						<Grid item className={classes.table}>
-							<ContactsList user={this.state.user} contacts={contacts} handleCreate={() => this.handleCreate()} />
+							<ContactsList user={user} contacts={contacts} handleCreate={() => this.handleCreate()} />
 						</Grid>
 					</Container>
 				</div>
