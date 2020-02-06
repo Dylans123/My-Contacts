@@ -23,7 +23,20 @@ const styles = theme => ({
 		alignItems: "center",
 		justifyContent: "center",
 		height: '40%',
-		width: '25%'
+		[theme.breakpoints.up('xs')]: {
+			width: '90%'
+		},
+		[theme.breakpoints.up('sm')]: {
+			width: '60%'
+		},
+		[theme.breakpoints.up('md')]: {
+			width: '40%'
+		},
+		[theme.breakpoints.up('lg')]: {
+			width: '25%'
+		}
+
+		
 	},
 	avatar: {
 		margin: theme.spacing(1),
@@ -105,7 +118,7 @@ class Register extends Component {
 									label="Email Address"
 									name="email"
 									autoComplete="email"
-									onChange={this.handeChange}
+									onChange={this.handleChange}
 								/>
 							</Grid>
 							<Grid item xs={12}>
@@ -118,7 +131,7 @@ class Register extends Component {
 									type="password"
 									id="password"
 									autoComplete="current-password"
-									onChange={this.handeChange}
+									onChange={this.handleChange}
 								/>
 							</Grid>
 						</Grid>
