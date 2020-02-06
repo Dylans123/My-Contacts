@@ -36,13 +36,8 @@ class ContactsList extends Component {
 		super(props);
 		this.state = {
 			name: "",
-			contactsArray: [],
 			userID: this.props.user._id
 		};
-	}
-
-	componentDidMount() {
-		this.getContacts();
 	}
 
 	updateName = e => {
@@ -50,54 +45,10 @@ class ContactsList extends Component {
 		this.setState({ name });
 	};
 
-	handleCreate = async () => {
-		const user_id = this.state.userID;
-
-		const payload = {
-			"contacts":{
-				first_name:"TheFlash",
-				last_name:"Barry",
-				phone_number:"111-222-3344",
-				email:"jl@gmail.com",
-		}};
-		console.log("User: ");
-		console.log(user_id);
-		console.log("This is the payload");
-		console.log(payload);
-		await api.addContact(user_id, payload).then(res => {
-			window.alert(`Contact inserted successfully`);
-		});
-	};
-
-	getContacts() {
-		api
-			.getContact(this.state.userID)
-			.then(res => {
-				console.log(res);
-				if (res.data.success) {
-					this.setState({
-						name: "",
-						contactsArray: res.data.results
-					});
-				}
-
-				console.log(this.state.contactsArray);
-
-				if (!res.data.errmsg) {
-					console.log("Data fetched");
-				} else {
-					console.log("Error fetching data");
-				}
-			})
-			.catch(function(error) {
-				console.log(error);
-			});
-	}
-
 	contactList = () => {
-		const { contactsArray } = this.state;
+		const { contacts } = this.props;
 		return (
-			contactsArray.map(function(currentContact, i) {
+			contacts.map(function(currentContact, i) {
 				return (
 					<TableRow>
 						<TableCell> {currentContact.contacts.first_name} </TableCell>
@@ -119,10 +70,9 @@ class ContactsList extends Component {
 	};
 
 	render() {
-		const { classes } = this.props;
-		const { contactsArray } = this.state;
+		const { classes, handleCreate, contacts } = this.props;
 
-		console.log(contactsArray)
+		console.log(contacts)
 
 		return (
 			<div>
@@ -141,7 +91,7 @@ class ContactsList extends Component {
 							variant="contained"
 							size="large"
 							color="primary"
-							onClick={this.handleCreate}
+							onClick={handleCreate}
 						>
 							Create Contact
 						</Button>
@@ -160,7 +110,7 @@ class ContactsList extends Component {
 								<TableCell />
 							</TableRow>
 						</TableHead>
-						<TableBody>{contactsArray.length != 0 ? this.contactList() : 'no contacts currently'}</TableBody>
+						<TableBody>{this.contactList()}</TableBody>
 					</Table>
 				</TableContainer>
 			</div>
