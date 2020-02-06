@@ -12,31 +12,38 @@ class App extends Component {
 		this.state = {
 			loggedIn: false,
 			user: null,
-			redirectTo: null
+			redirectTo: null,
+			errorText: "",
 		};
 
 		this._login = this._login.bind(this);
 	}
 
 	componentDidMount() {
-		axios.get("/auth/user").then(response => {
-			console.log(response.data);
-			if (!!response.data.user) {
-				console.log("THERE IS A USER");
-				this.setState({
-					loggedIn: true,
-					user: response.data.user
-				});
-			} else {
-				this.setState({
-					loggedIn: false,
-					user: null
-				});
-			}
-		});
+		axios
+			.get("/auth/user")
+			.then(response => {
+				console.log(response.data);
+				if (!!response.data.user) {
+					console.log("THERE IS A USER");
+					this.setState({
+						loggedIn: true,
+						user: response.data.user
+					});
+				} else {
+					this.setState({
+						loggedIn: false,
+						user: null
+					});
+				}
+			})
+			.catch(err => {
+				console.log(err)
+			})
 	}
 
 	_login(username, password) {
+		console.log('login');
 		axios
 			.post("/auth/login", {
 				username,
@@ -52,11 +59,17 @@ class App extends Component {
 					});
 					window.location.href = "/";
 				}
-			});
+			})
+			.catch(err => {
+				console.log(err);
+				const errorText = "Login failed, please try again!"
+				console.log(errorText)
+				this.setState({ errorText })
+			})
 	}
 
 	render() {
-		const { user } = this.state;
+		const { user, errorText } = this.state;
 
 		return (
 			<div>
@@ -65,7 +78,7 @@ class App extends Component {
 				<Route
 					exact
 					path="/login"
-					render={() => <Login _login={this._login} />}
+					render={() => <Login _login={this._login} errorText={errorText} />}
 				/>
 				<Route exact path="/register" render={() => <Register />} />
 			</div>

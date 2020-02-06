@@ -48,6 +48,7 @@ router.post('/register', (req, res) => {
 	const { username, password } = req.body
 	// ADD VALIDATION
 	User.findOne({ 'local.username': username }, (err, userMatch) => {
+		console.log(userMatch);
 		if (userMatch) {
 			return res.json({
 				error: `Sorry, already a user with the username: ${username}`

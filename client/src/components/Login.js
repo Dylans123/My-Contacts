@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import MediaQuery from "react-responsive";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
@@ -10,15 +11,31 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
 	root: {
-		display: 'flex',
-		direction:"column",
-		justifyContent:"center",
-		alignItems:"center",
+		display: "flex",
+		direction: "column",
+		justifyContent: "center",
+		alignItems: "center",
 		height: "100vh"
 	},
 	gridContainer: {
-		width: '60%',
-		height: '60%',
+		width: "60%",
+		height: "60%",
+		[theme.breakpoints.up("xs")]: {
+			height: "55%",
+			width: "90%"
+		},
+		[theme.breakpoints.up("sm")]: {
+			height: "50%",
+			width: "80%"
+		},
+		[theme.breakpoints.up("md")]: {
+			height: "60%",
+			width: "70%"
+		},
+		[theme.breakpoints.up("lg")]: {
+			height: "60%",
+			width: "65%"
+		}
 	},
 	image: {
 		backgroundImage: "url(https://source.unsplash.com/random)",
@@ -35,11 +52,11 @@ const styles = theme => ({
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		padding: theme.spacing(100),
+		padding: theme.spacing(100)
 	},
 	avatar: {
 		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
+		backgroundColor: theme.palette.secondary.main
 	},
 	form: {
 		width: "100%", // Fix IE 11 issue.
@@ -56,7 +73,8 @@ class Login extends Component {
 		this.state = {
 			email: "",
 			password: "",
-			redirectTo: null
+			redirectTo: null,
+			errorText: "",
 		};
 		this.onSubmit = this.onSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -78,19 +96,31 @@ class Login extends Component {
 
 	render() {
 		const { redirectTo, email, password } = this.state;
-
-		const { classes } = this.props;
+		const { classes, errorText } = this.props;
+		console.log(errorText);
 
 		if (redirectTo) {
 			return <Redirect to={{ pathname: redirectTo }} />;
 		}
 
 		return (
-			<div
-				className={classes.root}
-			>
-				<Grid container component={Paper} elevation={6} square className={classes.gridContainer} spacing={10}>
-					<Grid item xl={4} lg={4} md={4} sm={4} xs={4} className={classes.paper}>
+			<div className={classes.root}>
+				<Grid
+					container
+					component={Paper}
+					elevation={6}
+					square
+					className={classes.gridContainer}
+					spacing={10}
+				>
+					<Grid
+						item
+						xl={4}
+						lg={5}
+						md={5}
+						sm={6}
+						className={classes.paper}
+					>
 						<Typography component="h1" variant="h4">
 							Welcome!
 						</Typography>
@@ -136,12 +166,22 @@ class Login extends Component {
 							>
 								Sign In
 							</Button>
-								<Grid item>
-									<Link to="/register">{"Don't have an account? Sign Up"}</Link>
-								</Grid>
+							<Grid item>
+								<Link to="/register">{"Don't have an account? Sign Up"}</Link>
+							</Grid>
 						</form>
 					</Grid>
-					<Grid item xl={8} lg={8} md={8} sm={8} xs={8} component={Paper} className={classes.image}></Grid>
+					<MediaQuery query="(min-device-width: 600px)">
+						<Grid
+							item
+							xl={8}
+							lg={7}
+							md={7}
+							sm={6}
+							component={Paper}
+							className={classes.image}
+						></Grid>
+					</MediaQuery>
 				</Grid>
 			</div>
 		);

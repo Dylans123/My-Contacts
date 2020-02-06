@@ -17,7 +17,7 @@ showAll = (req, res) =>
             
             if (results != "")
             {
-                res.json(results);
+                res.json({'success': true, results: results});
             }
             else
             {

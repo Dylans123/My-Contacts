@@ -5,6 +5,7 @@ import ContactsList from "./ContactsList";
 import AppBar from "./AppBar";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import api from "../api";
 
 const styles = theme => ({
 	root: {
@@ -23,7 +24,8 @@ class Contacts extends Component {
 		super(props);
 		this.state = {
 			user: null,
-			loggedIn: false
+			loggedIn: false,
+			contacts: []
 		};
 		this._logout = this._logout.bind(this);
 	}
@@ -52,6 +54,7 @@ class Contacts extends Component {
 					loggedIn: true,
 					user: response.data.user
 				});
+				this.getContacts();
 			} else {
 				this.setState({
 					loggedIn: false,
@@ -62,8 +65,54 @@ class Contacts extends Component {
 		});
 	}
 
-	render() {
+	getContacts() {
 		const { user } = this.state;
+		const userId = user._id;
+		api
+			.getContact(userId)
+			.then(res => {
+				console.log(res);
+				console.log(res.data.success)
+				console.log(res.data.results);
+				if (res.data.success) {
+					this.setState({
+						name: "",
+						contacts: res.data.results
+					});
+				}
+				if (!res.data.errmsg) {
+					console.log("Data fetched");
+				} else {
+					console.log("Error fetching data");
+				}
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+	}
+
+	handleCreate = async () => {
+		const { user } = this.state;
+		const userId = user._id;
+		const payload = {
+			"contacts":{
+				first_name:"TheFlash",
+				last_name:"Barry",
+				phone_number:"111-222-3344",
+				email:"jl@gmail.com",
+		}};
+		console.log("User: ");
+		console.log(userId);
+		console.log("This is the payload");
+		console.log(payload);
+		await api.addContact(userId, payload).then(res => {
+			window.alert(`Contact inserted successfully`);
+			this.getContacts();
+		});
+	};
+
+	render() {
+		const { user, contacts } = this.state;
 		const { classes } = this.props;
 		console.log(user === null);
 
@@ -82,7 +131,7 @@ class Contacts extends Component {
 						>
 						</Grid>
 						<Grid item className={classes.table}>
-							<ContactsList user={this.state.user}/>
+							<ContactsList user={user} contacts={contacts} handleCreate={() => this.handleCreate()} />
 						</Grid>
 					</Container>
 				</div>

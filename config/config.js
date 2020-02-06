@@ -6,7 +6,7 @@ module.exports = {
   options: {
     reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
     reconnectInterval: 1000, // Reconnect every 500ms
-    poolSize: 10 // Maintain up to 10 socket connections
+    // poolSize: 10, // Maintain up to 10 socket connections
   },
 
   // Connect connection with MongoDB Database
@@ -25,8 +25,9 @@ mongoose.connection.on("open", function() {
 });
 
 // on mongo connection error event
-mongoose.connection.on("error", function() {
+mongoose.connection.on("error", function(error) {
   console.log("error in Database (MongoDB) connections");
+  console.log(error);
 });
 
 // on mongo connection disconnected event

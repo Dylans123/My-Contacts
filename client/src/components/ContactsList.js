@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import api from "../api";
+import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableBody from "@material-ui/core/TableBody";
@@ -29,6 +30,11 @@ const styles = theme => ({
 		alignItems: "center",
 		justifyContent: "center",
 		marginBottom: 30
+	},
+	tableContainer: {
+		height: 800,
+		width: "100%",
+		overflow: "auto"
 	}
 });
 
@@ -41,13 +47,8 @@ class ContactsList extends Component {
 			loading: false,
 			message: '',
 			name: "",
-			contactsarray: [],
 			userID: this.props.user._id
 		};
-	}
-
-	componentDidMount() {
-		this.getContacts();
 	}
 
 	updateName = e => {
@@ -55,28 +56,10 @@ class ContactsList extends Component {
 		this.setState({ name });
 	};
 
-	handleCreate = async () => {
-		const user_id = this.state.userID;
-
-		const payload = {
-			"contacts":{
-				first_name:"No",
-				last_name:"idk",
-				phone_number:"111-222-3344",
-				email:"kl@gmail.com",
-		}};
-		console.log("User: ");
-		console.log(user_id);
-		console.log("This is the payload");
-		console.log(payload);
-		await api.addContact(user_id, payload).then(res => {
-			window.alert(`Contact inserted successfully`);
-		});
-	};
-
 	handleOnInputChange = ( event ) => {
+		const { user } = this.props;
 		const search = event.target.value;
-		const user_id = this.state.userID;
+		const userId = user._id;
 		const payload = {
 			"contacts":{
 				first_name:"diffscrub",
@@ -87,56 +70,30 @@ class ContactsList extends Component {
 
 		console.log(search) // prints the value ( of the search)
 		this.setState({ 
-		  search, 
-		  loading: true,
-		  message: '',
-		 })
-		 console.log(this.state) // logs everything in the state object 
+			search, 
+			loading: true,
+			message: '',
+		})
+		console.log(this.state) // logs everything in the state object 
 
 		if(search != ""){
-			api.searchContact(user_id, search, payload).then(res => {
+			api.searchContact(userId, search, payload).then(res => {
 				this.setState({
 					name: "",
 					contactsarray: res.data
 				});
 			});
 		}
-		else{
-
-			this.getContacts();
-		}
-	  };
-
-	getContacts() {
-		api
-			.getContact(this.state.userID)
-			.then(res => {
-				this.setState({
-					//search: "",
-					name: "",
-					contactsarray: res.data
-				});
-
-				console.log(this.state.contactsarray);
-
-				if (!res.data.errmsg) {
-					console.log("Data fetched");
-				} else {
-					console.log("Error fetching data");
-				}
-			})
-			.catch(function(error) {
-				console.log(error);
-			});
-	}
+	};
 
 	getSearchResults = ( updatedPageNo, search ) => {
 		const searchUrl = `INSERTAPIHERE`
-	  };
+	};
 
 	contactList = () => {
-		if(Array.isArray(this.state.contactsarray)){
-			return this.state.contactsarray.map(function(currentContact, i) {
+		const { contacts } = this.props;
+		return (
+			contacts.map(function(currentContact, i) {
 				return (
 					<TableRow>
 						<TableCell> {currentContact.contacts.first_name} </TableCell>
@@ -153,19 +110,19 @@ class ContactsList extends Component {
 						</TableCell>
 					</TableRow>
 				);
-			});
-
-		}
-		
+			})
+		)
 	};
 
 	render() {
-		const { classes } = this.props;
+		const { classes, handleCreate, contacts } = this.props;
 		const { search } = this.state;
+
+		console.log(contacts)
 		return (
 			<div>
 				<Grid container spacing={3} className={classes.gridContainer}>
-					<Grid item xl={7} lg={7} md={7} sm={7} xs={4}>
+					<Grid item xl={7} lg={7} md={7} sm={7} xs={7}>
 						<TextField
 							fullWidth
 							id="outlined-search"
@@ -177,21 +134,29 @@ class ContactsList extends Component {
 							onChange={ this.handleOnInputChange }
 						/>
 					</Grid>
-					<Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
+					<Grid
+						item
+						xl={2}
+						lg={2}
+						md={2}
+						sm={2}
+						xs={2}
+						style={{ marginRight: 50 }}
+					>
 						<Button
 							variant="contained"
 							size="large"
 							color="primary"
-							onClick={this.handleCreate}
+							onClick={handleCreate}
 						>
 							Create Contact
 						</Button>
 					</Grid>
 				</Grid>
-				<TableContainer>
-					<Table aria-label="sticky table">
+				<TableContainer className={classes.tableContainer}>
+					<Table aria-label="sticky table" stickyHeader>
 						<TableHead>
-							<TableRow className={classes.table}>
+							<TableRow>
 								<TableCell className={classes.tablehead}>First Name</TableCell>
 								<TableCell className={classes.tablehead}>Last Name</TableCell>
 								<TableCell className={classes.tablehead}>
