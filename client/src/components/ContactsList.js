@@ -13,6 +13,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
 	tablehead: {
@@ -35,6 +36,10 @@ class ContactsList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			search:'',
+			results: {},
+			loading: false,
+			message: '',
 			name: "",
 			contactsarray: [],
 			userID: this.props.user._id
@@ -55,10 +60,10 @@ class ContactsList extends Component {
 
 		const payload = {
 			"contacts":{
-				first_name:"TheFlash",
-				last_name:"Barry",
+				first_name:"No",
+				last_name:"idk",
 				phone_number:"111-222-3344",
-				email:"jl@gmail.com",
+				email:"kl@gmail.com",
 		}};
 		console.log("User: ");
 		console.log(user_id);
@@ -69,11 +74,45 @@ class ContactsList extends Component {
 		});
 	};
 
+	handleOnInputChange = ( event ) => {
+		const search = event.target.value;
+		const user_id = this.state.userID;
+		const payload = {
+			"contacts":{
+				first_name:"diffscrub",
+				last_name:"xd",
+				phone_number:"541-342",
+				email:"plswark@outlook.com",
+		}}; 
+
+		console.log(search) // prints the value ( of the search)
+		this.setState({ 
+		  search, 
+		  loading: true,
+		  message: '',
+		 })
+		 console.log(this.state) // logs everything in the state object 
+
+		if(search != ""){
+			api.searchContact(user_id, search, payload).then(res => {
+				this.setState({
+					name: "",
+					contactsarray: res.data
+				});
+			});
+		}
+		else{
+
+			this.getContacts();
+		}
+	  };
+
 	getContacts() {
 		api
 			.getContact(this.state.userID)
 			.then(res => {
 				this.setState({
+					//search: "",
 					name: "",
 					contactsarray: res.data
 				});
@@ -91,30 +130,38 @@ class ContactsList extends Component {
 			});
 	}
 
+	getSearchResults = ( updatedPageNo, search ) => {
+		const searchUrl = `INSERTAPIHERE`
+	  };
+
 	contactList = () => {
-		return this.state.contactsarray.map(function(currentContact, i) {
-			return (
-				<TableRow>
-					<TableCell> {currentContact.contacts.first_name} </TableCell>
-					<TableCell> {currentContact.contacts.last_name} </TableCell>
-					<TableCell> {currentContact.contacts.phone_number} </TableCell>
-					<TableCell> {currentContact.contacts.email} </TableCell>
-					<TableCell align="right">
-						<IconButton aria-label="edit">
-							<EditIcon />
-						</IconButton>
-						<IconButton aria-label="delete">
-							<DeleteIcon />
-						</IconButton>
-					</TableCell>
-				</TableRow>
-			);
-		});
+		if(Array.isArray(this.state.contactsarray)){
+			return this.state.contactsarray.map(function(currentContact, i) {
+				return (
+					<TableRow>
+						<TableCell> {currentContact.contacts.first_name} </TableCell>
+						<TableCell> {currentContact.contacts.last_name} </TableCell>
+						<TableCell> {currentContact.contacts.phone_number} </TableCell>
+						<TableCell> {currentContact.contacts.email} </TableCell>
+						<TableCell align="right">
+							<IconButton aria-label="edit">
+								<EditIcon />
+							</IconButton>
+							<IconButton aria-label="delete">
+								<DeleteIcon />
+							</IconButton>
+						</TableCell>
+					</TableRow>
+				);
+			});
+
+		}
+		
 	};
 
 	render() {
 		const { classes } = this.props;
-
+		const { search } = this.state;
 		return (
 			<div>
 				<Grid container spacing={3} className={classes.gridContainer}>
@@ -125,6 +172,9 @@ class ContactsList extends Component {
 							label="Search field"
 							type="search"
 							variant="outlined"
+							name = "search"
+							value={search}
+							onChange={ this.handleOnInputChange }
 						/>
 					</Grid>
 					<Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
