@@ -51,7 +51,7 @@ router.post('/register', (req, res) => {
 		console.log(userMatch);
 		if (userMatch) {
 			return res.json({
-				error: `Sorry, already a user with the username: ${username}`
+				error: `Sorry, user already registered.`
 			})
 		}
 		const newUser = new User({

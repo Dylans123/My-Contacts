@@ -113,10 +113,10 @@ class Register extends Component {
 		return (
 			<div className={classes.root}>
 				<Container component={Paper} elevation={6} square className={classes.paper}>
-					<div style={{ color: 'red' }}>{errorText}</div>
 					<Typography component="h1" variant="h5">
-						Sign up
+						Sign Up
 					</Typography>
+					<div style={{ color: 'crimson' }}>{errorText}</div>
 					<form className={classes.form} onSubmit={this.onSubmit}>
 						<Grid container spacing={2}>
 							<Grid item xs={12}>
@@ -151,12 +151,13 @@ class Register extends Component {
 							variant="contained"
 							color="primary"
 							className={classes.submit}
+							disableElevation
 						>
 							Sign Up
 						</Button>
 						<Grid container justify="flex-start">
 							<Grid item>
-								<Link to="/login">Already have an account? Sign in</Link>
+								<Link to="/login">Already have an account? Sign In</Link>
 							</Grid>
 						</Grid>
 					</form>

@@ -65,6 +65,7 @@ class App extends Component {
 				const errorText = "Login failed, please try again!"
 				console.log(errorText)
 				this.setState({ errorText })
+				document.getElementById("loginMsg").innerHTML = errorText;
 			})
 	}
 

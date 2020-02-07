@@ -156,6 +156,7 @@ class Login extends Component {
 								autoComplete="current-password"
 								onChange={this.handleChange}
 							/>
+							<div id="loginMsg" style={{ color: 'crimson' }}></div>
 							<Button
 								type="submit"
 								fullWidth
