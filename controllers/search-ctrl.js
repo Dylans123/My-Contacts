@@ -13,7 +13,7 @@ search = (req, res) =>
 					$or:
 					[
 						{"contacts.first_name": {$regex: "^" + req.params.query, '$options': 'i'}},
-						{"contacts.last_name": {$regex: "^" + req.params.queryy, '$options': 'i'}},
+						{"contacts.last_name": {$regex: "^" + req.params.query, '$options': 'i'}},
 						{"contacts.phone_number": {$regex: "^" + req.params.query, '$options': 'i'}},
 						{"contacts.email": {$regex: "^" + req.params.query, '$options': 'i'}}
 					]
