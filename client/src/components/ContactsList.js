@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import api from "../api";
-import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableBody from "@material-ui/core/TableBody";
@@ -14,14 +13,14 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
-import { makeStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
 	tablehead: {
-		fontSize: "18pt"
+		fontSize: "20pt",
+		borderBottom: "none",
 	},
 	tablecell: {
-		fontSize: "12pt"
+		fontSize: "13pt"
 	},
 	gridContainer: {
 		width: "100%",
@@ -34,7 +33,8 @@ const styles = theme => ({
 	tableContainer: {
 		height: 800,
 		width: "100%",
-		overflow: "auto"
+		overflow: "auto",
+		
 	}
 });
 
@@ -42,13 +42,14 @@ class ContactsList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			search:'',
+			search: "",
 			results: {},
 			loading: false,
-			message: '',
+			message: "",
 			name: "",
 			userID: this.props.user._id
 		};
+		
 	}
 
 	updateName = e => {
@@ -56,27 +57,28 @@ class ContactsList extends Component {
 		this.setState({ name });
 	};
 
-	handleOnInputChange = ( event ) => {
+	handleOnInputChange = event => {
 		const { user } = this.props;
 		const search = event.target.value;
 		const userId = user._id;
 		const payload = {
-			"contacts":{
-				first_name:"diffscrub",
-				last_name:"xd",
-				phone_number:"541-342",
-				email:"plswark@outlook.com",
-		}}; 
+			contacts: {
+				first_name: "diffscrub",
+				last_name: "xd",
+				phone_number: "541-342",
+				email: "plswark@outlook.com"
+			}
+		};
 
-		console.log(search) // prints the value ( of the search)
-		this.setState({ 
-			search, 
+		console.log(search); // prints the value ( of the search)
+		this.setState({
+			search,
 			loading: true,
-			message: '',
-		})
-		console.log(this.state) // logs everything in the state object 
+			message: ""
+		});
+		console.log(this.state); // logs everything in the state object
 
-		if(search != ""){
+		if (search != "") {
 			api.searchContact(userId, search, payload).then(res => {
 				this.setState({
 					name: "",
@@ -86,39 +88,47 @@ class ContactsList extends Component {
 		}
 	};
 
-	getSearchResults = ( updatedPageNo, search ) => {
-		const searchUrl = `INSERTAPIHERE`
+	getSearchResults = (updatedPageNo, search) => {
+		const searchUrl = `INSERTAPIHERE`;
+	};
+
+	onSubmitDelete = (value) => {
+		const { handleDelete } = this.props;
+		console.log("Delete ID: " + value);
+		handleDelete(value)
 	};
 
 	contactList = () => {
-		const { contacts } = this.props;
-		return (
-			contacts.map(function(currentContact, i) {
-				return (
-					<TableRow>
-						<TableCell> {currentContact.contacts.first_name} </TableCell>
-						<TableCell> {currentContact.contacts.last_name} </TableCell>
-						<TableCell> {currentContact.contacts.phone_number} </TableCell>
-						<TableCell> {currentContact.contacts.email} </TableCell>
-						<TableCell align="right">
-							<IconButton aria-label="edit">
-								<EditIcon />
-							</IconButton>
-							<IconButton aria-label="delete">
-								<DeleteIcon />
-							</IconButton>
-						</TableCell>
-					</TableRow>
-				);
-			})
-		)
+		const { contacts, handleDelete, classes } = this.props;
+		return contacts.map((currentContact, i) => {
+			return (
+				<TableRow key={i}>
+					<TableCell className={classes.tablecell}> {currentContact.contacts.first_name} </TableCell>
+					<TableCell className={classes.tablecell}> {currentContact.contacts.last_name} </TableCell>
+					<TableCell className={classes.tablecell}> {currentContact.contacts.phone_number} </TableCell>
+					<TableCell className={classes.tablecell}> {currentContact.contacts.email} </TableCell>
+					<TableCell align="right">
+						<IconButton aria-label="edit">
+							<EditIcon />
+						</IconButton>
+						<IconButton
+							aria-label="delete"
+							onClick={() => handleDelete(currentContact.contacts._id)}
+							// onClick={() => this.onSubmitDelete(currentContact.contacts._id)}
+						>
+							<DeleteIcon />
+						</IconButton>
+					</TableCell>
+				</TableRow>
+			);
+		});
 	};
 
 	render() {
 		const { classes, handleCreate, contacts } = this.props;
 		const { search } = this.state;
 
-		console.log(contacts)
+		console.log(contacts);
 		return (
 			<div>
 				<Grid container spacing={3} className={classes.gridContainer}>
@@ -129,9 +139,9 @@ class ContactsList extends Component {
 							label="Search field"
 							type="search"
 							variant="outlined"
-							name = "search"
+							name="search"
 							value={search}
-							onChange={ this.handleOnInputChange }
+							onChange={this.handleOnInputChange}
 						/>
 					</Grid>
 					<Grid
@@ -163,7 +173,6 @@ class ContactsList extends Component {
 									Phone Number
 								</TableCell>
 								<TableCell className={classes.tablehead}>Email</TableCell>
-								<TableCell />
 							</TableRow>
 						</TableHead>
 						<TableBody>{this.contactList()}</TableBody>

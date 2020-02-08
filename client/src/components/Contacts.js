@@ -95,18 +95,39 @@ class Contacts extends Component {
 		const { user } = this.state;
 		const userId = user._id;
 		const payload = {
-			"contacts":{
-				first_name:"TheFlash",
+			"contacts":[{
+				first_name:"Marco",
 				last_name:"Barry",
 				phone_number:"111-222-3344",
 				email:"jl@gmail.com",
-		}};
+		}]};
 		console.log("User: ");
 		console.log(userId);
 		console.log("This is the payload");
 		console.log(payload);
 		await api.addContact(userId, payload).then(res => {
 			window.alert(`Contact inserted successfully`);
+			this.getContacts();
+		});
+	};
+
+	handleDelete = async (contactID) => {
+		const { user } = this.state;
+		const userId = user._id;
+
+		const payload = {
+			contacts: {
+				first_name: "",
+				last_name: "",
+				phone_number: "",
+				email: ""
+			}
+		};
+
+		console.log("/delete/" + userId + "/" + contactID);
+		await api.deleteContact(userId, contactID).then(res => {
+				console.log(res);
+			window.alert(`Contact deleted successfully`);
 			this.getContacts();
 		});
 	};
@@ -131,7 +152,7 @@ class Contacts extends Component {
 						>
 						</Grid>
 						<Grid item className={classes.table}>
-							<ContactsList user={user} contacts={contacts} handleCreate={() => this.handleCreate()} />
+							<ContactsList user={user} contacts={contacts} handleCreate={() => this.handleCreate()} handleDelete={this.handleDelete} />
 						</Grid>
 					</Container>
 				</div>
