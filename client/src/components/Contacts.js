@@ -190,7 +190,7 @@ class Contacts extends Component {
 							spacing={5}
 						></Grid>
 						<Grid item className={classes.table}>
-							<ContactsList user={user} contacts={contacts} handleCreate={this.handleCreate} handleDelete={this.handleDelete} handleUpdate={this.handleUpdate}/>
+							<ContactsList user={user} contacts={contacts} handleSearch={this.handleSearch} handleCreate={this.handleCreate} handleDelete={this.handleDelete} handleUpdate={this.handleUpdate}/>
 						</Grid>
 					</Container>
 					<Snackbar
