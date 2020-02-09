@@ -111,7 +111,7 @@ class Contacts extends Component {
 		console.log('payload: ' + JSON.stringify(payload));
 		console.log('contactID ' + contactID);
 		await api.updateContact(userId, contactID, payload).then(res => {
-			window.alert(`Contact Updated successfully`);
+			this.handleOpenAlert("Contact updated successfully");
 			this.getContacts();
 		});
 	};
@@ -119,15 +119,6 @@ class Contacts extends Component {
 	handleDelete = async contactID => {
 		const { user } = this.state;
 		const userId = user._id;
-
-		const payload = {
-			contacts: {
-				first_name: "",
-				last_name: "",
-				phone_number: "",
-				email: ""
-			}
-		};
 
 		console.log("/delete/" + userId + "/" + contactID);
 		await api.deleteContact(userId, contactID).then(res => {
@@ -141,7 +132,7 @@ class Contacts extends Component {
 		const { user } = this.state;
 		const userId = user._id;
 
-		if (searchQuery == "") this.getContacts();
+		if (searchQuery === "" || searchQuery === " ") this.getContacts();
 		else {
 			console.log("Searching: " + searchQuery);
 			api.searchContact(userId, searchQuery).then(res => {
@@ -199,7 +190,7 @@ class Contacts extends Component {
 						onClose={this.handleCloseAlert}
 						anchorOrigin={{ vertical: "top", horizontal: "center" }}
 					>
-						<Alert severity="success" onClose={this.handleCloseAlert}>
+						<Alert severity="success" onClose={this.handleCloseAlert} variant="filled" elevation={6}>
 							{alertMsg}
 						</Alert>
 					</Snackbar>

@@ -133,16 +133,6 @@ class ContactsList extends Component {
 		handleSearch(e.target.value);
 	};
 
-	getSearchResults = (updatedPageNo, search) => {
-		const searchUrl = `INSERTAPIHERE`;
-	};
-	
-	onSubmitDelete = (value) => {
-		const { handleDelete } = this.props;
-		console.log("Delete ID: " + value);
-		handleDelete(value)
-	};
-
 	handleModalOpen = () => {
 
 		this.setState({
@@ -221,7 +211,7 @@ class ContactsList extends Component {
 
 	render() {
 		const { classes, handleCreate, contacts } = this.props;
-		const { search, open} = this.state;
+		const { open } = this.state;
 
 		console.log(contacts);
 		return (
