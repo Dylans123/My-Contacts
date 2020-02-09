@@ -66,7 +66,6 @@ class ContactsList extends Component {
 			currentContactLastName: '',
 			currentContactPhoneNumber: '',
 			currentContactEmail: ''
-
 		};
 	}
 
@@ -218,30 +217,6 @@ class ContactsList extends Component {
 				);
 			});
 		}
-		return contacts.map((currentContact, i) => {
-			return (
-				<TableRow key={i}>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.first_name} </TableCell>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.last_name} </TableCell>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.phone_number} </TableCell>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.email} </TableCell>
-					<TableCell align="right">
-						<IconButton 
-							aria-label="edit"
-							onClick={() => this.handleOpenEditModal(currentContact)}
-						>							
-							<EditIcon />
-						</IconButton>
-						<IconButton
-							aria-label="delete"
-							onClick={() => handleDelete(currentContact.contacts._id)}						
-						>
-							<DeleteIcon />
-						</IconButton>
-					</TableCell>
-				</TableRow>
-			);
-		});
 	};
 
 	render() {
