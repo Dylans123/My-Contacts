@@ -95,25 +95,23 @@ class Contacts extends Component {
 			});
 	}
 
-	handleCreate = async () => {
+	handleCreate = async (payload) => {
 		const { user } = this.state;
 		const userId = user._id;
-		const payload = {
-			contacts: [
-				{
-					first_name: "sbarry",
-					last_name: "allen",
-					phone_number: "111-222-3344",
-					email: "jl@gmail.com"
-				}
-			]
-		};
-		console.log("User: ");
-		console.log(userId);
-		console.log("This is the payload");
-		console.log(payload);
 		await api.addContact(userId, payload).then(res => {
 			this.handleOpenAlert("Contact has been created");
+			this.getContacts();
+		});
+	};
+	
+	handleUpdate = async (payload, contactID) => {
+		const {user} = this.state;
+		const userId = user._id;
+		console.log('userID: ' + userId);
+		console.log('payload: ' + JSON.stringify(payload));
+		console.log('contactID ' + contactID);
+		await api.updateContact(userId, contactID, payload).then(res => {
+			window.alert(`Contact Updated successfully`);
 			this.getContacts();
 		});
 	};
@@ -192,13 +190,7 @@ class Contacts extends Component {
 							spacing={5}
 						></Grid>
 						<Grid item className={classes.table}>
-							<ContactsList
-								user={user}
-								contacts={contacts}
-								handleCreate={() => this.handleCreate()}
-								handleDelete={this.handleDelete}
-								handleSearch={this.handleSearch}
-							/>
+							<ContactsList user={user} contacts={contacts} handleCreate={this.handleCreate} handleDelete={this.handleDelete} handleUpdate={this.handleUpdate}/>
 						</Grid>
 					</Container>
 					<Snackbar
