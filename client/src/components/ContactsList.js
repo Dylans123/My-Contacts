@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import api from "../api";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableBody from "@material-ui/core/TableBody";
@@ -18,6 +17,7 @@ const styles = theme => ({
 	tablehead: {
 		fontSize: "20pt",
 		borderBottom: "none",
+		width: 350
 	},
 	tablecell: {
 		fontSize: "13pt"
@@ -33,8 +33,7 @@ const styles = theme => ({
 	tableContainer: {
 		height: 800,
 		width: "100%",
-		overflow: "auto",
-		
+		overflow: "auto"
 	}
 });
 
@@ -42,15 +41,12 @@ class ContactsList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
 			search: "",
 			results: {},
 			loading: false,
 			message: "",
-			name: "",
-			
+			name: ""
 		};
-		
 	}
 
 	updateName = e => {
@@ -58,125 +54,53 @@ class ContactsList extends Component {
 		this.setState({ name });
 	};
 
-	
-
-	onSubmitDelete = (value) => {
-		const { handleDelete } = this.props;
-		console.log("Delete ID: " + value);
-		handleDelete(value)
+	handleOnInputChange = e => {
+		const { handleSearch } = this.props;
+		handleSearch(e.target.value);
 	};
-
-	handleOnInputChange = (e) => {
-		//const { search } = this.props;
-		//console.log(e);
-		const search = e.target.value;
-		//const { search } = this.props;
-		console.log(search);
-		const { user } = this.props;
-		const userId = user._id;
-		const { contacts } = this.props;
-		console.log(contacts);
-		
-		const payload = {
-			"contacts": {
-				first_name: "",
-				last_name: "",
-				phone_number: "",
-				email: ""
-			}
-		};
-
-		console.log(search); // prints the value (of the search)
-		this.setState({
-			search,
-			loading: true,
-			message: ""
-		});
-		console.log(this.state); // logs everything in the state object
-
-		if (search != "") {
-			api.searchContact(userId, search, payload).then(res => {
-				console.log(userId);
-				console.log(search);
-				console.log(res);
-				console.log(res.data.success);
-				console.log(res.data);
-				this.setState({
-					name: "",
-					contacts: res.data,
-				});
-				console.log(this.state.contacts)
-			});
-		}
-		else{
-			//this.getContacts();
-		}
-	};	
 
 	contactList = () => {
-		console.log(this.state.contacts)
-		console.log(this.state.search);
-		if(this.state.search != "" && Array.isArray(this.state.contacts)){
-		const { handleDelete, classes } = this.props;
-		return this.state.contacts.map((currentContact, i) => {
-			return (
-				<TableRow key={i}>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.first_name} </TableCell>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.last_name} </TableCell>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.phone_number} </TableCell>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.email} </TableCell>
-					<TableCell align="right">
-						<IconButton aria-label="edit">
-							<EditIcon />
-						</IconButton>
-						<IconButton
-							aria-label="delete"
-							onClick={() => handleDelete(currentContact.contacts._id)}
-							// onClick={() => this.onSubmitDelete(currentContact.contacts._id)}
-						>
-							<DeleteIcon />
-						</IconButton>
-					</TableCell>
-				</TableRow>
-			);
-			
-		});
-	}
-	else if(this.state.search == ""){
-		console.log(this.state.contacts)
+		console.log(this.state.contacts);
 		const { contacts, handleDelete, classes } = this.props;
-		return contacts.map((currentContact, i) => {
-			return (
-				<TableRow key={i}>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.first_name} </TableCell>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.last_name} </TableCell>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.phone_number} </TableCell>
-					<TableCell className={classes.tablecell}> {currentContact.contacts.email} </TableCell>
-					<TableCell align="right">
-						<IconButton aria-label="edit">
-							<EditIcon />
-						</IconButton>
-						<IconButton
-							aria-label="delete"
-							onClick={() => handleDelete(currentContact.contacts._id)}
-							// onClick={() => this.onSubmitDelete(currentContact.contacts._id)}
-						>
-							<DeleteIcon />
-						</IconButton>
-					</TableCell>
-				</TableRow>
-			);
-			
-		});
-
-	}
-
+		if (contacts.length > 0) {
+			return contacts.map((currentContact, i) => {
+				return (
+					<TableRow key={i}>
+						<TableCell className={classes.tablecell}>
+							{" "}
+							{currentContact.contacts.first_name}{" "}
+						</TableCell>
+						<TableCell className={classes.tablecell}>
+							{" "}
+							{currentContact.contacts.last_name}{" "}
+						</TableCell>
+						<TableCell className={classes.tablecell}>
+							{" "}
+							{currentContact.contacts.phone_number}{" "}
+						</TableCell>
+						<TableCell className={classes.tablecell}>
+							{" "}
+							{currentContact.contacts.email}{" "}
+						</TableCell>
+						<TableCell align="right">
+							<IconButton aria-label="edit">
+								<EditIcon />
+							</IconButton>
+							<IconButton
+								aria-label="delete"
+								onClick={() => handleDelete(currentContact.contacts._id)}
+							>
+								<DeleteIcon />
+							</IconButton>
+						</TableCell>
+					</TableRow>
+				);
+			});
+		}
 	};
 
-	
 	render() {
-		const { classes, handleCreate, contacts, } = this.props;
-		const { search } = this.state;
+		const { classes, handleCreate, contacts } = this.props;
 
 		console.log(contacts);
 		return (
@@ -190,7 +114,6 @@ class ContactsList extends Component {
 							type="search"
 							variant="outlined"
 							name="search"
-							value={search}
 							onChange={this.handleOnInputChange}
 						/>
 					</Grid>
@@ -223,6 +146,7 @@ class ContactsList extends Component {
 									Phone Number
 								</TableCell>
 								<TableCell className={classes.tablehead}>Email</TableCell>
+								<TableCell></TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>{this.contactList()}</TableBody>

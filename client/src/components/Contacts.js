@@ -5,6 +5,8 @@ import ContactsList from "./ContactsList";
 import AppBar from "./AppBar";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 import api from "../api";
 
 const styles = theme => ({
@@ -25,7 +27,9 @@ class Contacts extends Component {
 		this.state = {
 			user: null,
 			loggedIn: false,
-			contacts: []
+			contacts: [],
+			openAlert: false,
+			alertMsg: ""
 		};
 		this._logout = this._logout.bind(this);
 	}
@@ -72,7 +76,7 @@ class Contacts extends Component {
 			.getContact(userId)
 			.then(res => {
 				console.log(res);
-				console.log(res.data.success)
+				console.log(res.data.success);
 				console.log(res.data.results);
 				if (res.data.success) {
 					this.setState({
@@ -95,23 +99,26 @@ class Contacts extends Component {
 		const { user } = this.state;
 		const userId = user._id;
 		const payload = {
-			"contacts":[{
-				first_name:"Marco",
-				last_name:"Barry",
-				phone_number:"111-222-3344",
-				email:"jl@gmail.com",
-		}]};
+			contacts: [
+				{
+					first_name: "sbarry",
+					last_name: "allen",
+					phone_number: "111-222-3344",
+					email: "jl@gmail.com"
+				}
+			]
+		};
 		console.log("User: ");
 		console.log(userId);
 		console.log("This is the payload");
 		console.log(payload);
 		await api.addContact(userId, payload).then(res => {
-			window.alert(`Contact inserted successfully`);
+			this.handleOpenAlert("Contact has been created");
 			this.getContacts();
 		});
 	};
 
-	handleDelete = async (contactID) => {
+	handleDelete = async contactID => {
 		const { user } = this.state;
 		const userId = user._id;
 
@@ -126,14 +133,48 @@ class Contacts extends Component {
 
 		console.log("/delete/" + userId + "/" + contactID);
 		await api.deleteContact(userId, contactID).then(res => {
-				console.log(res);
-			window.alert(`Contact deleted successfully`);
+			console.log(res);
 			this.getContacts();
+			this.handleOpenAlert("Contact has been deleted");
+		});
+	};
+
+	handleSearch = async searchQuery => {
+		const { user } = this.state;
+		const userId = user._id;
+
+		if (searchQuery == "") this.getContacts();
+		else {
+			console.log("Searching: " + searchQuery);
+			api.searchContact(userId, searchQuery).then(res => {
+				console.log("Search results");
+				console.log(res.data);
+				this.setState({
+					contacts: res.data
+				});
+			});
+		}
+	};
+
+	handleCloseAlert = (event, reason) => {
+		if (reason === "clickaway") {
+			return;
+		}
+
+		this.setState({
+			openAlert: false
+		});
+	};
+
+	handleOpenAlert = message => {
+		this.setState({
+			openAlert: true,
+			alertMsg: message
 		});
 	};
 
 	render() {
-		const { user, contacts } = this.state;
+		const { user, contacts, openAlert, alertMsg } = this.state;
 		const { classes } = this.props;
 		console.log(user === null);
 
@@ -149,12 +190,27 @@ class Contacts extends Component {
 							justify="center"
 							alignItems="center"
 							spacing={5}
-						>
-						</Grid>
+						></Grid>
 						<Grid item className={classes.table}>
-							<ContactsList user={user} contacts={contacts} handleCreate={() => this.handleCreate()} handleDelete={this.handleDelete} />
+							<ContactsList
+								user={user}
+								contacts={contacts}
+								handleCreate={() => this.handleCreate()}
+								handleDelete={this.handleDelete}
+								handleSearch={this.handleSearch}
+							/>
 						</Grid>
 					</Container>
+					<Snackbar
+						open={openAlert}
+						autoHideDuration={3000}
+						onClose={this.handleCloseAlert}
+						anchorOrigin={{ vertical: "top", horizontal: "center" }}
+					>
+						<Alert severity="success" onClose={this.handleCloseAlert}>
+							{alertMsg}
+						</Alert>
+					</Snackbar>
 				</div>
 			);
 		} else {
