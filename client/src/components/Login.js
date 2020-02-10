@@ -38,7 +38,7 @@ const styles = theme => ({
 		}
 	},
 	image: {
-		backgroundImage: "url(https://source.unsplash.com/random)",
+		backgroundImage: "url(https://source.unsplash.com/featured/?business)",
 		backgroundRepeat: "no-repeat",
 		backgroundColor:
 			theme.palette.type === "dark"
