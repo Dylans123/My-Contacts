@@ -3,12 +3,20 @@
 //
 // Example send object:
 // {
-//     "contacts": {
-//         "first_name": "Bob",
-//         "last_name": "Smith",
-//         "phone_number": "111-111-1111",
-//         "email": "bob@email.com"
-//     }
+//     "contacts": [
+//         {
+//             "first_name": "first1",
+//             "last_name": "last1",
+//             "phone_number": "phone1",
+//             "email": "email1"
+//         },
+//         {
+//             "first_name": "first2",
+//             "last_name": "last2",
+//             "phone_number": "phone2",
+//             "email": "email2"
+//         }
+//     ]
 // }
 
 const express = require('express');
