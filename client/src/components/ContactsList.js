@@ -15,6 +15,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { DialogContent, DialogContentText } from "@material-ui/core";
 
 const styles = theme => ({
 	tablehead: {
@@ -40,8 +41,15 @@ const styles = theme => ({
 		
 	},
 	modalInput: {
-		width: 300
-	}
+		width: '100%',
+	},
+	// dialogPaper: {
+	// 	minHeight: 500,
+	// 	maxHeight: 500
+	// },
+	// dialogContent: {
+	// 	width: '400px'
+	// }
 
 });
 
@@ -65,7 +73,9 @@ class ContactsList extends Component {
 			currentContactFirstName: '',
 			currentContactLastName: '',
 			currentContactPhoneNumber: '',
-			currentContactEmail: ''
+			currentContactEmail: '',
+			dialogFullWidth: true,
+			dialogMaxWidth: 'sm'
 		};
 	}
 
@@ -247,48 +257,56 @@ class ContactsList extends Component {
 						</Button>
 					</Grid>
 				</Grid>
-					<Dialog open={open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-						<DialogTitle id="form-dialog-title">New Contact</DialogTitle>
-										<TextField
-											variant="outlined"
-											required
-											fullWidth
-											id="first-name"
-											label="First Name"
-											name={this.state.updatingContact ? 'currentContactFirstName' : 'first_name'}
-											defaultValue={this.state.updatingContact ? this.state.currentContactFirstName : ''}
-											className={classes.modalInput}
-											onChange={(event) => this.handleChange(event)}
-										/>
-										<TextField
-											variant="outlined"
-											required
-											fullWidth
-											id="last-name"
-											label="Last Name"
-											name="last_name"
-											name={this.state.updatingContact ? 'currentContactLastName' : 'last_name'}
-											defaultValue={this.state.updatingContact ? this.state.currentContactLastName : ''}
-											className={classes.modalInput}
-											onChange={(event) => this.handleChange(event)}
-										/>
-										<TextField
+				<div>
+				<Dialog fullWidth={this.state.dialogFullWidth} maxWidth={this.state.dialogMaxWidth} open={open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+		<DialogTitle id="form-dialog-title"> {this.state.updatingContact ? 'Edit Contact' : 'New Contact'}</DialogTitle>
+						<DialogContent classes={{root: classes.DialogContent}}>
+						<DialogContentText>
+							<TextField
+												variant="outlined"
+												required
+												id="first-name"
+												label={'First Name'}
+												name={this.state.updatingContact ? 'currentContactFirstName' : 'first_name'}
+												defaultValue={this.state.updatingContact ? this.state.currentContactFirstName : ''}
+												className={classes.modalInput}
+												onChange={(event) => this.handleChange(event)}
+							/>
+						</DialogContentText>
+						<DialogContentText>
+							<TextField
+												variant="outlined"
+												required
+												fullWidth
+												id="last-name"
+												label={'Last Name'}
+												name="last_name"
+												name={this.state.updatingContact ? 'currentContactLastName' : 'last_name'}
+												defaultValue={this.state.updatingContact ? this.state.currentContactLastName : ''}
+												className={classes.modalInput}
+												onChange={(event) => this.handleChange(event)}
+											/>
+						</DialogContentText>
+						<DialogContentText>
+						<TextField
 											variant="outlined"
 											required
 											fullWidth
 											id="phone-number"
-											label="Phone Number"
+											label={'Phone Number'}
 											name={this.state.updatingContact ? 'currentContactPhoneNumber' : 'phone_number'}
 											defaultValue={this.state.updatingContact ? this.state.currentContactPhoneNumber : ''}
 											className={classes.modalInput}
 											onChange={(event) => this.handleChange(event)}
-										/>
-										<TextField
+						/>
+						</DialogContentText>
+						<DialogContentText>
+						<TextField
 											variant="outlined"
 											required
 											fullWidth
 											id="email"
-											label="Email Address"
+											label={'Email Address'}
 											name="email"
 											name={this.state.updatingContact ? 'currentContactEmail' : 'email'}
 											autoComplete="email"
@@ -296,6 +314,9 @@ class ContactsList extends Component {
 											className={classes.modalInput}
 											onChange={(event) => this.handleChange(event)}
 										/>
+						</DialogContentText>
+						</DialogContent>
+						
 							<DialogActions>
 								<Button onClick={this.handleClose} color="primary">
 									Cancel
@@ -311,8 +332,9 @@ class ContactsList extends Component {
 									</Button>									
 								}
 							</DialogActions>
-
 					</Dialog>
+				</div>
+					
 				<TableContainer className={classes.tableContainer}>
 					<Table aria-label="sticky table" stickyHeader>
 						<TableHead>
