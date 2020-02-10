@@ -132,7 +132,7 @@ class Contacts extends Component {
 		const { user } = this.state;
 		const userId = user._id;
 
-		if (searchQuery === "" || searchQuery === " ") this.getContacts();
+		if (!(/\S/.test(searchQuery))) this.getContacts();
 		else {
 			console.log("Searching: " + searchQuery);
 			api.searchContact(userId, searchQuery).then(res => {
