@@ -4,9 +4,8 @@ import Grid from "@material-ui/core/Grid";
 import ContactsList from "./ContactsList";
 import AppBar from "./AppBar";
 import { withStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Snackbar from "@material-ui/core/Snackbar";
-import Alert from "@material-ui/lab/Alert";
+import { Container, Snackbar, IconButton, Typography } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import api from "../api";
 
 const styles = theme => ({
@@ -189,10 +188,15 @@ class Contacts extends Component {
 						autoHideDuration={3000}
 						onClose={this.handleCloseAlert}
 						anchorOrigin={{ vertical: "top", horizontal: "center" }}
+						message={alertMsg}
+						action={
+							<React.Fragment>
+								<IconButton size="small" aria-label="close" color="inherit" onClick={this.handleCloseAlert}>
+									<CloseIcon fontSize="small" />
+								</IconButton>
+							</React.Fragment>
+						}
 					>
-						<Alert severity="success" onClose={this.handleCloseAlert} variant="filled" elevation={6}>
-							{alertMsg}
-						</Alert>
 					</Snackbar>
 				</div>
 			);

@@ -11,9 +11,6 @@ const styles = theme => ({
 	root: {
 		flexGrow: 1
 	},
-	menuButton: {
-		marginRight: theme.spacing(2)
-	},
 	title: {
 		flexGrow: 1
 	}
@@ -35,15 +32,9 @@ class NavigationBar extends Component {
 			<div className={classes.root}>
 				<AppBar position="static">
 					<Toolbar>
-						<IconButton
-							edge="start"
-							className={classes.menuButton}
-							color="inherit"
-							aria-label="menu"
-						>
-							<MenuIcon />
-						</IconButton>
-						<Typography variant="h6" className={classes.title} />
+						<Typography variant="h6" className={classes.title}>
+							My Contacts
+						</Typography>
 						<Button color="inherit" onClick={_logout}>
 							Logout
 						</Button>
