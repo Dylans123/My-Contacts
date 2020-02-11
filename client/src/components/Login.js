@@ -8,6 +8,8 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
+import Image from '../assets/handshake.png'
+
 
 const styles = theme => ({
 	root: {
@@ -38,14 +40,12 @@ const styles = theme => ({
 		}
 	},
 	image: {
-		backgroundImage: "url(https://source.unsplash.com/featured/?business)",
+		backgroundImage: `url(${Image})`,
 		backgroundRepeat: "no-repeat",
-		backgroundColor:
-			theme.palette.type === "dark"
-				? theme.palette.grey[900]
-				: theme.palette.grey[50],
-		backgroundSize: "cover",
-		backgroundPosition: "center"
+		backgroundColor: '#FFFFFF',
+		backgroundSize: "60% 60%",
+		backgroundPosition: "center",
+
 	},
 	paper: {
 		display: "flex",
