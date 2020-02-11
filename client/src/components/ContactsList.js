@@ -345,7 +345,6 @@ class ContactsList extends Component {
 									Phone Number
 								</TableCell>
 								<TableCell className={classes.tablehead}>Email</TableCell>
-								<TableCell></TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>{this.contactList()}</TableBody>
